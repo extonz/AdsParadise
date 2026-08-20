@@ -69,9 +69,10 @@ body {
   flex-direction: column;
 }
 
+/* Do not use content-visibility here: FakeAd renders a fixed modal as a sibling
+   of the article, and containment can clip/fix-position that modal. */
 .ad-feed-item {
-  content-visibility: auto;
-  contain-intrinsic-size: 760px;
+  position: relative;
 }
 
 .ad-feed-item > .fake-ad {
