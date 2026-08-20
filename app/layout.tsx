@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
-// @ts-expect-error Next.js handles these global CSS imports at build time.
 import "./globals.css";
-// @ts-expect-error Next.js handles this global CSS import at build time.
+import "./paradise-redesign.css";
 import "./fake-ad-effects.css";
 
 export const metadata: Metadata = {
-  title: "Ads Paradise™ — You came for the internet. We gave you ads.",
+  title: "Ads Paradise — The Internet, But Mostly Ads",
   description:
-    "Welcome to Ads Paradise. A completely unnecessary internet experience dedicated to the beautiful art of advertising.",
-  keywords: [
-    "Ads Paradise",
-    "advertisements",
-    "ads",
-    "internet",
-    "advertising",
-  ],
-  authors: [
-    {
-      name: "Ads Paradise",
-    },
-  ],
+    "Ads Paradise is a completely unnecessary internet experience packed with fake advertisements, real ads, strange interactions and absolutely no reason to be here.",
+  metadataBase: new URL("https://adsparadise.net"),
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    title: "Ads Paradise",
+    description: "You came for the internet. We gave you ads.",
+    type: "website",
+    url: "https://adsparadise.net",
+    siteName: "Ads Paradise",
+  },
 };
 
 export default function RootLayout({

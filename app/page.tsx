@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
@@ -10,107 +10,87 @@ import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
 import { fakeAds } from "./data/ads";
 
+const realAdSizes = ["728x90", "300x250", "468x60", "320x50"] as const;
+
 export default function Home() {
   const [currentAd, setCurrentAd] = useState(0);
 
-  const nextFakeAd = () => {
-    setCurrentAd(
-      (current) =>
-        (current + 1) % fakeAds.length
-    );
-  };
+  const visibleAds = useMemo(
+    () => Array.from({ length: 12 }, (_, index) => fakeAds[(currentAd + index) % fakeAds.length]),
+    [currentAd],
+  );
 
-  const getAd = (offset: number) => {
-    return fakeAds[
-      (currentAd + offset) %
-        fakeAds.length
-    ];
+  const nextFakeAd = () => {
+    setCurrentAd((current) => (current + 1) % fakeAds.length);
   };
 
   return (
     <main>
       <AdCounter />
-
       <ParadiseHeader />
 
       <div className="container">
         <section className="hero">
-          <p className="eyebrow">
-            WELCOME TO THE PARADISE
-          </p>
-
+          <p className="eyebrow">WELCOME TO THE PARADISE</p>
           <h1>
             You came for the internet.
             <br />
             We gave you ads.
           </h1>
-
           <p className="hero-description">
-            Ads Paradise is a completely unnecessary
-            website dedicated to the beautiful art of
-            advertising.
+            Ads Paradise is a completely unnecessary website dedicated to the beautiful art of advertising.
           </p>
+          <div className="hero-meta" aria-hidden="true">
+            <span>50+ FAKE ADS</span>
+            <span>REAL ADS</span>
+            <span>ZERO PURPOSE</span>
+          </div>
         </section>
 
         <NativeAd />
 
-        <FakeAd ad={getAd(0)} />
+        <section className="ad-feed" aria-label="Advertisement gallery">
+          {visibleAds.map((ad, index) => (
+            <div className="ad-feed-item" key={`${ad.id}-${index}`}>
+              <FakeAd ad={ad} />
 
-        <RealAd size="728x90" />
+              {index % 3 === 2 && (
+                <RealAd size={realAdSizes[Math.floor(index / 3) % realAdSizes.length]} />
+              )}
+            </div>
+          ))}
+        </section>
 
-        <FakeAd ad={getAd(1)} />
-
-        <RealAd size="300x250" />
-
-        <FakeAd ad={getAd(2)} />
-
-        <RealAd size="468x60" />
-
-        <FakeAd ad={getAd(3)} />
-
-        <RealAd size="320x50" />
-
-        <FakeAd ad={getAd(4)} />
+        <section className="paradise-break" aria-label="Advertisement statistics">
+          <div>
+            <span>THE FEED</span>
+            <strong>NEVER ENDS.</strong>
+          </div>
+          <button type="button" onClick={nextFakeAd}>
+            SHUFFLE ADS
+          </button>
+        </section>
 
         <AdCard />
 
-        <FakeAd ad={getAd(5)} />
-
         <section className="stats">
           <div>
-            <strong>
-              {fakeAds.length}
-            </strong>
-
-            <span>
-              FAKE ADS AVAILABLE
-            </span>
+            <strong>{fakeAds.length}</strong>
+            <span>FAKE ADS AVAILABLE</span>
           </div>
-
           <div>
-            <strong>0</strong>
-
-            <span>
-              REASONS TO BE HERE
-            </span>
+            <strong>∞</strong>
+            <span>SCROLLING REQUIRED</span>
           </div>
-
           <div>
             <strong>100%</strong>
-
-            <span>
-              ADVERTISEMENT
-            </span>
+            <span>ADVERTISEMENT</span>
           </div>
         </section>
 
         <footer>
           <p>ADS PARADISE™</p>
-
-          <span>
-            A completely unnecessary internet
-            experience.
-          </span>
+          <span>A completely unnecessary internet experience.</span>
         </footer>
       </div>
     </main>
