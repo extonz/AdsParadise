@@ -1,0 +1,85 @@
+/* Runtime safety layer for interactive fake-ad controls. */
+
+.fake-ad-content,
+.fake-ad-main,
+.fake-ad-main button {
+  position: relative;
+}
+
+.fake-ad-main {
+  z-index: 3;
+}
+
+.fake-ad-main button {
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.fake-ad-interaction-preview {
+  pointer-events: none !important;
+}
+
+.fake-ad-experience {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483000 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  background: rgba(8, 8, 8, 0.82) !important;
+  backdrop-filter: blur(14px) saturate(1.08) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(1.08) !important;
+  overflow: auto !important;
+  isolation: isolate !important;
+  animation: fake-ad-runtime-overlay-in 220ms ease-out both !important;
+}
+
+.fake-ad-experience-inner {
+  position: relative !important;
+  z-index: 1 !important;
+  width: min(620px, calc(100vw - 40px)) !important;
+  max-height: calc(100dvh - 40px) !important;
+  overflow: auto !important;
+  box-sizing: border-box !important;
+  transform: translateZ(0);
+  animation: fake-ad-runtime-popup-in 420ms cubic-bezier(.16,1,.3,1) both !important;
+}
+
+.fake-ad-experience-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 14px !important;
+  z-index: 50 !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: grid !important;
+  place-items: center !important;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+}
+
+@keyframes fake-ad-runtime-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fake-ad-runtime-popup-in {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(.94) rotateX(4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fake-ad-experience,
+  .fake-ad-experience-inner {
+    animation: none !important;
+  }
+}
