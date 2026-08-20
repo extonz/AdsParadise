@@ -1,4 +1,5 @@
-/* Ads Paradise visual polish layer */
+/* Ads Paradise layout polish. This file intentionally does not style
+   .fake-ad-experience internals; those live in fake-ad-effects.css. */
 
 :root {
   --paper: #f5f3ed;
@@ -11,7 +12,7 @@
 body {
   overflow-x: hidden;
   background:
-    radial-gradient(circle at 15% 5%, rgba(255, 239, 0, 0.12), transparent 24rem),
+    radial-gradient(circle at 15% 4%, rgba(255, 239, 0, 0.11), transparent 24rem),
     var(--paper);
 }
 
@@ -26,18 +27,16 @@ body {
 }
 
 .hero::after {
-  content: "ADS / ADS / ADS / ADS / ADS / ADS / ADS";
+  content: "ADS / ADS / ADS / ADS";
   position: absolute;
-  right: -8vw;
-  bottom: 35px;
+  right: -5vw;
+  bottom: 28px;
   z-index: -1;
-  max-width: 70%;
-  overflow: hidden;
   color: rgba(17, 17, 17, 0.035);
-  font-size: clamp(40px, 10vw, 120px);
+  font-size: clamp(50px, 9vw, 118px);
   font-weight: 900;
-  line-height: .8;
-  letter-spacing: -.08em;
+  line-height: 0.8;
+  letter-spacing: -0.08em;
   white-space: nowrap;
   pointer-events: none;
 }
@@ -46,15 +45,18 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 35px;
+  margin-top: 32px;
 }
 
 .hero-meta span {
-  padding: 8px 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
   border: 1px solid var(--ink);
   font-size: 9px;
   font-weight: 900;
-  letter-spacing: .13em;
+  letter-spacing: 0.13em;
 }
 
 .hero-meta span:nth-child(2) {
@@ -73,16 +75,52 @@ body {
 }
 
 .ad-feed-item > .fake-ad {
-  margin: 86px 0;
+  margin: 84px 0;
+}
+
+.fake-ad-small .fake-ad-content {
+  min-height: 220px;
+}
+
+.fake-ad-medium .fake-ad-content {
+  min-height: 290px;
+}
+
+.fake-ad-large .fake-ad-content {
+  min-height: 360px;
+}
+
+.fake-ad-interaction-preview {
+  position: absolute;
+  right: 22px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  pointer-events: none;
+  text-align: right;
+}
+
+.fake-ad-interaction-preview span {
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+}
+
+.fake-ad-interaction-preview small {
+  font-size: 8px;
+  opacity: 0.52;
+  letter-spacing: 0.08em;
 }
 
 .paradise-break {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
   gap: 30px;
-  margin: 120px 0 40px;
-  padding: 35px 0;
+  margin: 100px 0 45px;
+  padding: 34px 0;
   border-top: 2px solid var(--ink);
   border-bottom: 1px solid var(--line);
 }
@@ -93,27 +131,28 @@ body {
   color: var(--muted);
   font-size: 9px;
   font-weight: 900;
-  letter-spacing: .2em;
+  letter-spacing: 0.2em;
 }
 
 .paradise-break strong {
   display: block;
-  font-size: clamp(32px, 7vw, 72px);
-  line-height: .9;
-  letter-spacing: -.06em;
+  font-size: clamp(34px, 7vw, 76px);
+  line-height: 0.86;
+  letter-spacing: -0.06em;
 }
 
 .paradise-break button {
   flex: 0 0 auto;
+  min-height: 48px;
+  padding: 0 18px;
   border: 2px solid var(--ink);
-  padding: 14px 18px;
   background: var(--ink);
   color: #fff;
   cursor: pointer;
   font-size: 10px;
   font-weight: 900;
-  letter-spacing: .12em;
-  transition: transform .2s ease, box-shadow .2s ease;
+  letter-spacing: 0.12em;
+  transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .paradise-break button:hover {
@@ -122,18 +161,17 @@ body {
 }
 
 .paradise-break button:active {
-  transform: translate(0, 0);
+  transform: none;
   box-shadow: none;
 }
 
-/* Real Adsterra slots */
 .real-ad {
   position: relative;
   width: 100%;
-  margin: 55px auto;
+  margin: 52px auto;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .real-ad-label {
@@ -147,27 +185,22 @@ body {
   color: #777;
   font-size: 8px;
   font-weight: 900;
-  letter-spacing: .16em;
+  letter-spacing: 0.16em;
 }
 
 .real-ad-label span:last-child {
-  opacity: .55;
+  opacity: 0.55;
   font-family: monospace;
-  letter-spacing: .05em;
+  letter-spacing: 0.05em;
 }
 
 .real-ad-content {
   position: relative;
-  display: flex;
+  display: grid;
+  place-items: center;
   width: 100%;
   min-height: 60px;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-}
-
-.real-ad-content > script {
-  display: contents;
 }
 
 .real-ad-content iframe {
@@ -208,6 +241,37 @@ body {
   min-height: 250px;
 }
 
+.real-ad-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 30px;
+}
+
+.real-ad-loading span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #111;
+  opacity: 0.2;
+  animation: real-ad-loading-pulse 900ms ease-in-out infinite alternate;
+}
+
+.real-ad-loading span:nth-child(2) {
+  animation-delay: 150ms;
+}
+
+.real-ad-loading span:nth-child(3) {
+  animation-delay: 300ms;
+}
+
+@keyframes real-ad-loading-pulse {
+  to {
+    opacity: 0.85;
+    transform: translateY(-4px);
+  }
+}
+
 .real-ad-fallback {
   display: grid;
   place-items: center;
@@ -221,22 +285,16 @@ body {
 .real-ad-fallback span {
   font-size: 9px;
   font-weight: 900;
-  letter-spacing: .16em;
+  letter-spacing: 0.16em;
 }
 
 .real-ad-fallback small {
   font-size: 11px;
 }
 
-/* Make the existing fake-ad shell feel intentional instead of noisy. */
-.fake-ad {
-  will-change: transform;
-  border-width: 2px;
-}
-
-.fake-ad:hover {
-  transform: translateY(-3px);
-  box-shadow: 8px 8px 0 var(--ink);
+.real-ad.is-loaded .real-ad-loading,
+.real-ad.is-failed .real-ad-loading {
+  display: none;
 }
 
 .fake-ad button:focus-visible,
@@ -246,40 +304,30 @@ body {
   outline-offset: 4px;
 }
 
-/* The experience layer gets calmer entry/exit; individual effects stay unique. */
-.fake-ad-experience {
-  background: rgba(10, 10, 10, .68);
-  backdrop-filter: blur(18px) saturate(1.05);
-}
-
-.fake-ad-experience-inner {
-  max-height: min(720px, calc(100dvh - 36px));
-  overflow: auto;
-  scrollbar-width: thin;
-}
-
-.fake-ad-experience-inner::-webkit-scrollbar {
-  width: 7px;
-}
-
-.fake-ad-experience-inner::-webkit-scrollbar-thumb {
-  background: #111;
-}
-
 @media (max-width: 600px) {
   .hero::after {
-    right: -30vw;
-    bottom: 25px;
+    right: -28vw;
+    bottom: 20px;
+    font-size: 64px;
   }
 
   .hero-meta {
     max-width: 290px;
   }
 
+  .ad-feed-item > .fake-ad {
+    margin: 68px 0;
+  }
+
+  .fake-ad-interaction-preview {
+    right: 14px;
+    bottom: 14px;
+  }
+
   .paradise-break {
-    align-items: flex-start;
+    align-items: stretch;
     flex-direction: column;
-    margin-top: 85px;
+    margin-top: 78px;
   }
 
   .paradise-break button {
@@ -287,7 +335,7 @@ body {
   }
 
   .real-ad {
-    margin: 42px auto;
+    margin: 38px auto;
   }
 
   .real-ad-728x90 .real-ad-content,
@@ -296,12 +344,12 @@ body {
   }
 
   .real-ad-728x90 .real-ad-content iframe {
-    transform: scale(.72);
+    transform: scale(0.72);
     transform-origin: center;
   }
 
   .real-ad-468x60 .real-ad-content iframe {
-    transform: scale(.82);
+    transform: scale(0.82);
     transform-origin: center;
   }
 }
@@ -311,10 +359,9 @@ body {
     scroll-behavior: auto;
   }
 
-  .hero::after,
-  .fake-ad,
-  .paradise-break button,
-  .fake-ad-experience-inner {
+  .real-ad-loading span,
+  .paradise-break button {
+    animation: none !important;
     transition: none !important;
   }
 }
