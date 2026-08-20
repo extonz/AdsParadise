@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useMemo } from "react";
 
 type RealAdSize = "320x50" | "468x60" | "728x90" | "300x250";
 
@@ -31,123 +31,52 @@ const AD_CONFIG = {
   },
 } as const;
 
-let adsterraQueue: Promise<void> = Promise.resolve();
-
-function loadAdsterra(
-  mount: HTMLDivElement,
+function buildAdDocument(
   key: string,
   width: number,
   height: number,
 ) {
-  adsterraQueue = adsterraQueue.then(
-    () =>
-      new Promise<void>((resolve) => {
-        if (!mount.isConnected) {
-          resolve();
-          return;
-        }
-
-        mount.replaceChildren();
-
-        const optionsScript = document.createElement("script");
-        optionsScript.type = "text/javascript";
-        optionsScript.text = `window.atOptions = {
-  key: '${key}',
-  format: 'iframe',
-  height: ${height},
-  width: ${width},
-  params: {}
-};`;
-
-        const invokeScript = document.createElement("script");
-        invokeScript.type = "text/javascript";
-        invokeScript.async = false;
-        invokeScript.src =
-          `https://www.highperformanceformat.com/${key}/invoke.js`;
-
-        const finish = () => {
-          window.clearTimeout(timeout);
-          invokeScript.removeEventListener("load", finish);
-          invokeScript.removeEventListener("error", finish);
-          resolve();
-        };
-
-        const timeout = window.setTimeout(finish, 9000);
-
-        invokeScript.addEventListener("load", finish, { once: true });
-        invokeScript.addEventListener("error", finish, { once: true });
-
-        mount.append(optionsScript, invokeScript);
-      }),
-  );
-
-  return adsterraQueue;
+  return `<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=${width}, initial-scale=1">
+<style>
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:transparent}
+body{display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+<script>
+var atOptions={
+  'key':'${key}',
+  'format':'iframe',
+  'height':${height},
+  'width':${width},
+  'params':{}
+};
+</script>
+<script src="https://www.highperformanceformat.com/${key}/invoke.js"></script>
+</body>
+</html>`;
 }
 
 export default function RealAd({ size }: RealAdProps) {
-  const mountRef = useRef<HTMLDivElement>(null);
-  const countedRef = useRef(false);
-  const [loaded, setLoaded] = useState(false);
-  const [failed, setFailed] = useState(false);
   const config = AD_CONFIG[size];
 
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return;
-
-    let cancelled = false;
-    countedRef.current = false;
-    setLoaded(false);
-    setFailed(false);
-
-    loadAdsterra(
-      mount,
-      config.key,
-      config.width,
-      config.height,
-    ).then(() => {
-      if (cancelled || !mount.isConnected) return;
-
-      const hasIframe = Boolean(mount.querySelector("iframe"));
-
-      setLoaded(hasIframe);
-      setFailed(!hasIframe);
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [config.height, config.key, config.width]);
-
-  useEffect(() => {
-    const mount = mountRef.current;
-    if (!mount) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        const hasRealAd = Boolean(mount.querySelector("iframe"));
-
-        if (
-          entry.isIntersecting &&
-          hasRealAd &&
-          !countedRef.current
-        ) {
-          countedRef.current = true;
-          window.dispatchEvent(new Event("ad-seen"));
-        }
-      },
-      { threshold: 0.5 },
-    );
-
-    observer.observe(mount);
-    return () => observer.disconnect();
-  }, []);
+  const srcDoc = useMemo(
+    () =>
+      buildAdDocument(
+        config.key,
+        config.width,
+        config.height,
+      ),
+    [config.key, config.width, config.height],
+  );
 
   return (
     <section
-      className={`real-ad real-ad-${size}${
-        loaded ? " is-loaded" : ""
-      }${failed ? " is-failed" : ""}`}
+      className={`real-ad real-ad-${size}`}
       aria-label="Advertisement"
     >
       <div className="real-ad-label">
@@ -156,26 +85,16 @@ export default function RealAd({ size }: RealAdProps) {
       </div>
 
       <div className="real-ad-content">
-        <div
-          ref={mountRef}
-          className="real-ad-mount"
-          aria-hidden="true"
+        <iframe
+          title={`Advertisement ${size}`}
+          srcDoc={srcDoc}
+          width={config.width}
+          height={config.height}
+          loading="lazy"
+          scrolling="no"
+          frameBorder="0"
+          sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin"
         />
-
-        {!loaded && !failed && (
-          <div className="real-ad-loading" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-          </div>
-        )}
-
-        {failed && (
-          <div className="real-ad-fallback" role="status">
-            <span>ADVERTISEMENT UNAVAILABLE</span>
-            <small>Moving on.</small>
-          </div>
-        )}
       </div>
     </section>
   );
