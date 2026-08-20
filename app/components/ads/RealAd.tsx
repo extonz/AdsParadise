@@ -34,7 +34,7 @@ const AD_CONFIG = {
 let adsterraQueue: Promise<void> = Promise.resolve();
 
 function loadAdsterra(
-  container: HTMLDivElement,
+  mount: HTMLDivElement,
   key: string,
   width: number,
   height: number,
@@ -42,12 +42,12 @@ function loadAdsterra(
   adsterraQueue = adsterraQueue.then(
     () =>
       new Promise<void>((resolve) => {
-        if (!container.isConnected) {
+        if (!mount.isConnected) {
           resolve();
           return;
         }
 
-        container.replaceChildren();
+        mount.replaceChildren();
 
         const optionsScript = document.createElement("script");
         optionsScript.type = "text/javascript";
@@ -77,7 +77,7 @@ function loadAdsterra(
         invokeScript.addEventListener("load", finish, { once: true });
         invokeScript.addEventListener("error", finish, { once: true });
 
-        container.append(optionsScript, invokeScript);
+        mount.append(optionsScript, invokeScript);
       }),
   );
 
@@ -85,32 +85,30 @@ function loadAdsterra(
 }
 
 export default function RealAd({ size }: RealAdProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const mountRef = useRef<HTMLDivElement>(null);
   const countedRef = useRef(false);
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const config = AD_CONFIG[size];
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const mount = mountRef.current;
+    if (!mount) return;
 
     let cancelled = false;
+    countedRef.current = false;
     setLoaded(false);
     setFailed(false);
-    countedRef.current = false;
 
     loadAdsterra(
-      container,
+      mount,
       config.key,
       config.width,
       config.height,
     ).then(() => {
-      if (cancelled) return;
+      if (cancelled || !mount.isConnected) return;
 
-      const hasIframe = Boolean(
-        container.querySelector("iframe"),
-      );
+      const hasIframe = Boolean(mount.querySelector("iframe"));
 
       setLoaded(hasIframe);
       setFailed(!hasIframe);
@@ -122,14 +120,12 @@ export default function RealAd({ size }: RealAdProps) {
   }, [config.height, config.key, config.width]);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const mount = mountRef.current;
+    if (!mount) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        const hasRealAd = Boolean(
-          container.querySelector("iframe"),
-        );
+        const hasRealAd = Boolean(mount.querySelector("iframe"));
 
         if (
           entry.isIntersecting &&
@@ -143,7 +139,7 @@ export default function RealAd({ size }: RealAdProps) {
       { threshold: 0.5 },
     );
 
-    observer.observe(container);
+    observer.observe(mount);
     return () => observer.disconnect();
   }, []);
 
@@ -159,10 +155,13 @@ export default function RealAd({ size }: RealAdProps) {
         <span>{size}</span>
       </div>
 
-      <div
-        ref={containerRef}
-        className="real-ad-content"
-      >
+      <div className="real-ad-content">
+        <div
+          ref={mountRef}
+          className="real-ad-mount"
+          aria-hidden="true"
+        />
+
         {!loaded && !failed && (
           <div className="real-ad-loading" aria-hidden="true">
             <span />
