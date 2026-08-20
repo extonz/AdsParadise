@@ -1,0 +1,320 @@
+/* ADS PARADISE — INDIVIDUAL FAKE-AD EXPERIENCES */
+
+.fake-ad-experience {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(8, 8, 8, .78);
+  backdrop-filter: blur(14px) saturate(1.1);
+  animation: fx-overlay-in .28s ease both;
+}
+
+.fake-ad-experience-inner {
+  --accent: var(--experience-accent, #ffef00);
+  position: relative;
+  width: min(620px, 100%);
+  min-height: 390px;
+  overflow: hidden;
+  padding: 30px;
+  color: #111;
+  background: #fff;
+  border: 3px solid #111;
+  box-shadow: 18px 18px 0 #000;
+  animation: fx-popup-in .5s cubic-bezier(.16,1,.3,1) both;
+}
+
+.fake-ad-experience-label {
+  position: relative;
+  z-index: 4;
+  display: block;
+  max-width: calc(100% - 45px);
+  margin-bottom: 18px;
+  overflow: hidden;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: .55;
+}
+
+.fake-ad-experience-close {
+  position: absolute;
+  z-index: 20;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 2px solid currentColor !important;
+  border-radius: 50%;
+  background: transparent !important;
+  color: inherit !important;
+  cursor: pointer;
+  font-size: 25px;
+  line-height: 1;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.fake-ad-experience-close:hover { transform: rotate(90deg) scale(1.08); background: rgba(0,0,0,.08) !important; }
+
+.fake-ad-experience-result {
+  position: relative;
+  z-index: 4;
+  margin: 24px 0 0;
+  padding-top: 15px;
+  border-top: 1px solid rgba(0,0,0,.18);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  line-height: 1.5;
+}
+
+.fake-ad-experience-inner section { position: relative; min-height: 255px; display: grid; place-items: center; text-align: center; overflow: hidden; }
+.fake-ad-experience-inner h3 { margin: 0; font-size: clamp(30px, 7vw, 58px); line-height: .88; letter-spacing: -.06em; }
+.fake-ad-experience-inner strong { display: block; }
+.fake-ad-experience-inner small { display: block; font-size: 9px; letter-spacing: .14em; opacity: .7; }
+
+@keyframes fx-overlay-in { from { opacity: 0 } to { opacity: 1 } }
+@keyframes fx-popup-in { from { opacity: 0; transform: translateY(45px) scale(.82) rotate(-2deg) } 70% { transform: translateY(-5px) scale(1.02) rotate(.4deg) } to { opacity: 1; transform: none } }
+
+/* 01 productivity — radial progress pulse */
+.xp-productivity { grid-template-columns: 150px 1fr; gap: 30px; text-align: left !important; background: repeating-linear-gradient(90deg,transparent 0 29px,rgba(0,0,0,.04) 30px), #eafff4; }
+.xp-productivity-ring { width: 145px; aspect-ratio: 1; display:grid; place-items:center; border-radius:50%; background: conic-gradient(#00d084 0 37%, #cde9db 37% 100%); animation: fx-productivity 1.4s ease-in-out infinite alternate; }
+.xp-productivity-ring::after { content:""; position:absolute; width:105px; aspect-ratio:1; border-radius:50%; background:#eafff4; }
+.xp-productivity-ring span { position:relative; z-index:1; font-size:34px; font-weight:900; }
+.xp-productivity p { margin:0 0 10px; font-size:9px; letter-spacing:.15em; }
+.xp-productivity-bars { display:flex; gap:6px; margin-top:18px; }
+.xp-productivity-bars i { width:28px; height:7px; background:#00d084; animation:fx-bars .7s infinite alternate; }
+.xp-productivity-bars i:nth-child(2){animation-delay:.1s}.xp-productivity-bars i:nth-child(3){animation-delay:.2s}.xp-productivity-bars i:nth-child(4){animation-delay:.3s}.xp-productivity-bars i:nth-child(5){animation-delay:.4s}
+@keyframes fx-productivity { to { transform:rotate(8deg) scale(1.06) } }
+@keyframes fx-bars { to { height:38px } }
+
+/* 02 lottery — slot machine */
+.xp-lottery { background: radial-gradient(circle at 50% 20%,#fff7b0,#ffd000 55%,#d39d00); }
+.xp-lottery-ticket { padding:28px 45px; border:4px dashed #111; background:#fff; transform:rotate(-2deg); box-shadow:10px 10px 0 #111; animation:fx-lottery 1.1s infinite steps(4); }
+.xp-lottery-ticket span,.xp-lottery-ticket small { display:block; font-size:9px; letter-spacing:.2em; }.xp-lottery-ticket strong{display:block;margin:8px 0;font-size:clamp(34px,8vw,65px)}
+.xp-lottery-flare{position:absolute;font-size:100px;animation:fx-flare .8s infinite alternate}
+@keyframes fx-lottery { 50% { transform:rotate(2deg) translateY(-5px) } }
+@keyframes fx-flare { from{opacity:.1;transform:scale(.6) rotate(0)}to{opacity:.8;transform:scale(1.3) rotate(180deg)} }
+
+/* 03 pencil — writing cursor */
+.xp-pencil { background:linear-gradient(135deg,#fff,#edf0f5); }
+.xp-pencil-page{width:75%;height:180px;padding:35px 25px;border:2px solid #bbb;background:#fff;box-shadow:8px 8px 0 #ddd;transform:rotate(-2deg)}
+.xp-pencil-line{height:3px;margin:22px 0;background:#111;transform-origin:left;animation:fx-write 2s cubic-bezier(.2,.8,.2,1) infinite}
+.xp-pencil-line:nth-child(2){animation-delay:.25s}.xp-pencil-line:nth-child(3){animation-delay:.5s}.xp-pencil-cursor{position:absolute;font-size:45px;animation:fx-pencil 2s ease-in-out infinite}
+.xp-pencil strong{position:absolute;bottom:20px;font-size:10px;letter-spacing:.14em}
+@keyframes fx-write{0%,20%{transform:scaleX(0)}55%,100%{transform:scaleX(1)}}
+@keyframes fx-pencil{0%{transform:translate(-120px,35px)}55%{transform:translate(130px,-25px)}100%{transform:translate(-120px,35px)}}
+
+/* 04 RAM — memory fills */
+.xp-ram{background:#130c24;color:#fff;grid-template-rows:auto auto auto;gap:20px}.xp-ram-chip{padding:18px 35px;border:2px solid #a879ff;box-shadow:0 0 30px #8b5cf6;font-family:monospace;animation:fx-ram 1.2s infinite}.xp-ram-chip strong{font-size:42px;color:#b995ff}.xp-ram-meter{width:85%;height:18px;padding:3px;border:1px solid #a879ff}.xp-ram-meter span{display:block;height:100%;background:#a879ff;animation:fx-ram-meter 2.6s ease-in-out infinite}.xp-ram small{font-family:monospace}
+@keyframes fx-ram{50%{box-shadow:0 0 60px #8b5cf6;transform:translateY(-6px)}}@keyframes fx-ram-meter{0%,100%{width:12%}70%{width:100%}}
+
+/* 05 cat — floating cat */
+.xp-cat{background:linear-gradient(#bfe8ff 0 70%,#7fc96b 70%);}.xp-cat-sky{position:absolute;inset:15px;font-size:35px}.xp-cat-sky span{position:absolute;animation:fx-cloud 5s linear infinite}.xp-cat-sky span:nth-child(1){left:5%}.xp-cat-sky span:nth-child(2){left:55%;animation-delay:1.5s}.xp-cat-sky span:nth-child(3){left:80%;animation-delay:3s}.xp-cat-body{font-size:30px;animation:fx-cat 1.8s ease-in-out infinite}.xp-cat-ears{font-size:26px}.xp-cat-face{padding:15px 30px;border-radius:50%;background:#ffb866;border:3px solid #111}.xp-cat-body small{margin-top:10px}
+@keyframes fx-cloud{from{transform:translateX(-80px)}to{transform:translateX(650px)}}@keyframes fx-cat{50%{transform:translateY(-18px) rotate(3deg)}}
+
+/* 06 nothing subscription — empty mailbox */
+.xp-subscribe{background:#f1f1f1}.xp-mailbox{width:120px;height:90px;display:grid;place-items:center;border:4px solid #111;background:#fff;font-size:50px;animation:fx-mail 2s infinite}.xp-subscribe h3{position:absolute;bottom:25px}.xp-subscribe p{position:absolute;top:22px;font-size:11px}.xp-subscribe-wave{position:absolute;width:180px;height:180px;border:2px solid #111;border-radius:50%;animation:fx-wave 2s infinite}
+@keyframes fx-mail{50%{transform:rotateY(180deg)}}@keyframes fx-wave{from{transform:scale(.2);opacity:1}to{transform:scale(1.8);opacity:0}}
+
+/* 07 premium air — orbit */
+.xp-air{background:radial-gradient(circle,#fff,#d8f7ff);}.xp-air-orbit{width:170px;height:170px;border:1px solid #70d8ff;border-radius:50%;display:grid;place-items:center;box-shadow:0 0 40px #9ee7ff;animation:fx-orbit 3s linear infinite}.xp-air-orbit::before{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#00b8ff;transform:translateX(85px)}.xp-air-orbit span{font-size:55px;font-weight:900}.xp-air strong{position:absolute;bottom:35px;font-size:11px;letter-spacing:.2em}.xp-air small{position:absolute;bottom:18px}
+@keyframes fx-orbit{to{transform:rotate(360deg)}}
+
+/* 08 zero cost — price stamp */
+.xp-free{background:#111;color:#fff}.xp-free-price{font-size:clamp(65px,15vw,130px);font-weight:900;letter-spacing:-.1em;animation:fx-free 1s infinite alternate}.xp-free-stamp{position:absolute;top:35px;right:40px;padding:12px 20px;border:3px solid #fff;transform:rotate(12deg);animation:fx-stamp .8s infinite alternate}.xp-free p{position:absolute;bottom:25px;font-size:10px;letter-spacing:.15em}
+@keyframes fx-free{to{letter-spacing:.03em;transform:scale(1.05)}}@keyframes fx-stamp{to{transform:rotate(-8deg) scale(1.08)}}
+
+/* 09 social — avatars arrive */
+.xp-social{background:#fff0f5}.xp-avatar-stack{display:flex}.xp-avatar-stack span{width:75px;height:75px;display:grid;place-items:center;border:3px solid #111;border-radius:50%;background:#ff8ab0;font-size:45px;margin-left:-12px;animation:fx-avatar .9s cubic-bezier(.16,1,.3,1) both}.xp-avatar-stack span:nth-child(2){background:#ffbd6b;animation-delay:.15s}.xp-avatar-stack span:nth-child(3){background:#a7a0ff;animation-delay:.3s}.xp-social h3{margin-top:20px}.xp-social-online{position:absolute;top:20px;left:20px;font-size:9px;letter-spacing:.15em;animation:fx-online 1s infinite}
+@keyframes fx-avatar{from{opacity:0;transform:translateX(80px) rotate(40deg)}to{opacity:1;transform:none}}@keyframes fx-online{50%{opacity:.25}}
+
+/* 10 sleep — drifting moon */
+.xp-sleep{background:#111a3c;color:#fff}.xp-moon{font-size:120px;animation:fx-moon 4s ease-in-out infinite}.xp-sleep-stars{position:absolute;inset:20px;font-size:25px;letter-spacing:2em;animation:fx-stars 2s infinite}.xp-sleep h3{position:absolute;bottom:35px}.xp-sleep small{position:absolute;bottom:18px}
+@keyframes fx-moon{50%{transform:translateY(-18px) rotate(-8deg)}}@keyframes fx-stars{50%{opacity:.35;transform:scale(1.15)}}
+
+/* 11 rock — object reveal */
+.xp-rock{background:#e8dfd7}.xp-rock-object{font-size:130px;filter:drop-shadow(15px 20px 0 rgba(0,0,0,.15));animation:fx-rock 1.6s cubic-bezier(.2,.8,.2,1) infinite}.xp-rock-shadow{position:absolute;bottom:70px;width:160px;height:25px;background:#8c7969;border-radius:50%;filter:blur(5px);animation:fx-rock-shadow 1.6s infinite}.xp-rock strong{position:absolute;bottom:30px}.xp-rock small{position:absolute;top:25px;right:25px}
+@keyframes fx-rock{0%,100%{transform:translateY(-15px) rotate(-4deg)}50%{transform:translateY(5px) rotate(5deg)}}@keyframes fx-rock-shadow{50%{transform:scale(.75);opacity:.5}}
+
+/* 12 scan — radar */
+.xp-scan{background:#06110a;color:#72ff8b;font-family:monospace}.xp-scan-circle{width:170px;height:170px;border:2px solid #72ff8b;border-radius:50%;display:grid;place-items:center;font-size:35px;box-shadow:0 0 35px rgba(114,255,139,.25)}.xp-scan-circle::after{content:"";position:absolute;width:150px;height:2px;background:#72ff8b;box-shadow:0 0 15px #72ff8b;animation:fx-radar 1.4s linear infinite}.xp-scan-lines{position:absolute;right:30px;top:75px;width:120px}.xp-scan-lines i{display:block;height:4px;margin:9px 0;background:#72ff8b;animation:fx-scan-bars .7s infinite alternate}.xp-scan strong{position:absolute;bottom:25px}
+@keyframes fx-radar{from{transform:rotate(0) translateX(75px)}to{transform:rotate(360deg) translateX(75px)}}@keyframes fx-scan-bars{to{opacity:.15}}
+
+/* 13 celebrity — camera flashes */
+.xp-celebrity{background:linear-gradient(135deg,#ff3bc8,#6d4aff);color:#fff}.xp-star{font-size:125px;animation:fx-celeb 1.2s infinite}.xp-paparazzi{position:absolute;inset:25px;font-weight:900;letter-spacing:.25em;animation:fx-flashes .22s infinite}.xp-celebrity h3{position:absolute;bottom:38px}.xp-celebrity small{position:absolute;bottom:20px}
+@keyframes fx-celeb{50%{transform:rotate(10deg) scale(1.08)}}@keyframes fx-flashes{0%,100%{opacity:.1}50%{opacity:1;text-shadow:0 0 30px #fff}}
+
+/* 14 premium nothing — luxury seal */
+.xp-premium-nothing{background:radial-gradient(circle,#fff9d6,#d4af37);color:#4b3500}.xp-premium-seal{width:110px;height:110px;border:5px double #7d5900;border-radius:50%;display:grid;place-items:center;font-size:55px;animation:fx-seal 3s linear infinite}.xp-premium-nothing span{position:absolute;top:25px;letter-spacing:.4em;font-size:9px}.xp-premium-nothing h3{position:absolute;bottom:45px}.xp-premium-nothing small{position:absolute;bottom:22px}
+@keyframes fx-seal{to{transform:rotate(360deg)}}
+
+/* 15 stop scroll — wheel */
+.xp-stop-scroll{background:#ff4a4a;color:#fff}.xp-stop-wheel{font-size:120px;border:5px solid #fff;border-radius:50%;width:170px;height:170px;display:grid;place-items:center;animation:fx-wheel 1.2s ease-in-out infinite}.xp-stop-scroll h3{position:absolute;bottom:35px}.xp-stop-scroll p{position:absolute;bottom:15px;font-size:9px}
+@keyframes fx-wheel{50%{transform:rotate(180deg) scale(.85)}}
+
+/* 16 internet misses — signal */
+.xp-misses{background:#e7e8ff}.xp-misses-signal{font-size:60px;letter-spacing:.2em;animation:fx-signal 1.5s infinite}.xp-misses h3{font-size:80px;animation:fx-hello 1.5s infinite}.xp-misses p{position:absolute;bottom:30px;font-size:10px;letter-spacing:.18em}
+@keyframes fx-signal{50%{letter-spacing:.5em;opacity:.25}}@keyframes fx-hello{50%{transform:translateX(18px)}}
+
+/* 17 rich — money counter */
+.xp-rich{background:#dff8e8}.xp-rich-number{font-family:monospace;font-size:clamp(45px,10vw,85px);font-weight:900;animation:fx-rich 1.5s infinite}.xp-rich-bar{position:absolute;bottom:55px;width:80%;height:14px;background:#b8d9c4}.xp-rich-bar span{display:block;height:100%;background:#48c774;animation:fx-rich-bar 2.2s ease-in-out infinite}.xp-rich small{position:absolute;bottom:30px}
+@keyframes fx-rich{50%{transform:scale(1.08);color:#149b4b}}@keyframes fx-rich-bar{0%,100%{width:3%}70%{width:100%}}
+
+/* 18 meta ad — recursive cards */
+.xp-meta{background:#fff}.xp-meta>span{font-size:10px;letter-spacing:.2em}.xp-meta>div{display:flex;gap:8px;margin:25px}.xp-meta b{padding:22px;background:#111;color:#fff;animation:fx-meta .8s infinite alternate}.xp-meta b:nth-child(2){animation-delay:.15s}.xp-meta b:nth-child(3){animation-delay:.3s}.xp-meta small{position:absolute;bottom:25px}
+@keyframes fx-meta{to{transform:translateY(-18px) rotate(3deg)}}
+
+/* 19 second internet — merge */
+.xp-second-internet{background:#dff6ff;grid-template-columns:1fr auto 1fr;gap:10px}.xp-second-internet>div{padding:25px 10px;border:3px solid #111;background:#fff;font-weight:900;animation:fx-net 1.5s infinite alternate}.xp-internet-plus{font-size:45px!important;border:0!important;background:transparent!important;animation:fx-plus 1s infinite!important}.xp-second-internet strong{grid-column:1/-1}
+@keyframes fx-net{to{transform:translateY(-12px)}}@keyframes fx-plus{50%{transform:scale(1.5) rotate(90deg)}}
+
+/* 20 celebration — burst */
+.xp-celebrate{background:#ffef00}.xp-celebrate-burst{font-size:85px;letter-spacing:.2em;animation:fx-celebrate 1s infinite}.xp-celebrate h3{position:absolute;bottom:50px}.xp-celebrate p{position:absolute;bottom:25px;font-size:10px}
+@keyframes fx-celebrate{0%{transform:scale(.4) rotate(-20deg)}50%{transform:scale(1.2) rotate(8deg)}100%{transform:scale(.8) rotate(-8deg)}}
+
+/* 21 wifi — rings */
+.xp-wifi{background:#071727;color:#7dd7ff}.xp-wifi-rings{font-size:110px;letter-spacing:-.3em;transform:rotate(-90deg);animation:fx-wifi 1.2s infinite}.xp-wifi code{position:absolute;bottom:45px;padding:10px 18px;border:1px solid #7dd7ff}.xp-wifi strong{position:absolute;top:28px;letter-spacing:.2em}.xp-wifi small{position:absolute;bottom:20px}
+@keyframes fx-wifi{50%{transform:rotate(-90deg) scale(1.2);text-shadow:0 0 25px #7dd7ff}}
+
+/* 22 millionaire — calculator */
+.xp-millionaire{background:#f0ffe9}.xp-calc{padding:25px 45px;border:3px solid #111;background:#fff;font-family:monospace;animation:fx-calc 1s infinite alternate}.xp-calc strong{font-size:45px;color:#28a94f}.xp-calc-light{position:absolute;width:180px;height:180px;border-radius:50%;background:#b9ff9f;filter:blur(35px);z-index:-1;animation:fx-calc-light 1.5s infinite}.xp-millionaire small{position:absolute;bottom:25px}
+@keyframes fx-calc{to{transform:translateY(-8px) rotate(1deg)}}@keyframes fx-calc-light{50%{transform:scale(1.5);opacity:.4}}
+
+/* 23 chair — invisible furniture */
+.xp-chair{background:linear-gradient(#eee,#d6d6d6)}.xp-chair-ghost{font-family:monospace;font-size:50px;line-height:.7;opacity:.2;animation:fx-chair 2s infinite}.xp-chair strong{position:absolute;bottom:40px}.xp-chair small{position:absolute;bottom:20px}
+@keyframes fx-chair{0%,100%{opacity:.12;transform:translateY(0)}50%{opacity:.5;transform:translateY(-20px)}}
+
+/* 24 speed — needle */
+.xp-speed{background:#101010;color:#fff}.xp-speedometer{width:190px;height:95px;border:8px solid #ff6b35;border-bottom:0;border-radius:190px 190px 0 0;display:grid;place-items:end center;padding-bottom:15px;font-size:45px;animation:fx-speed 1.1s infinite alternate}.xp-speed-wave{font-size:55px;position:absolute;top:25px;animation:fx-wave-speed .8s infinite}.xp-speed strong{position:absolute;bottom:28px;font-size:10px;letter-spacing:.18em}
+@keyframes fx-speed{to{transform:rotate(14deg)}}@keyframes fx-wave-speed{50%{transform:translateX(25px);opacity:.25}}
+
+/* 25 mouse — nap */
+.xp-mouse{background:#e8edf3}.xp-mouse-object{font-size:100px;animation:fx-mouse 2.5s ease-in-out infinite}.xp-mouse-bed{position:absolute;bottom:55px;font-size:30px;letter-spacing:.4em;animation:fx-z 1.4s infinite}.xp-mouse small{position:absolute;bottom:25px}
+@keyframes fx-mouse{50%{transform:translateY(15px) rotate(-8deg)}}@keyframes fx-z{50%{transform:translateY(-20px);opacity:.2}}
+
+/* 26 AI — chat typing */
+.xp-ai{background:#03171a;color:#8effff;grid-template-columns:120px 1fr;gap:25px;text-align:left!important}.xp-ai-brain{width:115px;height:115px;display:grid;place-items:center;border:2px solid #00f0ff;border-radius:50%;font-family:monospace;box-shadow:0 0 30px #00f0ff;animation:fx-ai 1.4s infinite}.xp-ai-chat span,.xp-ai-chat b{display:block;padding:13px;margin:10px 0;border:1px solid #00f0ff;font-family:monospace}.xp-ai-chat b{animation:fx-type 2s steps(8) infinite}
+@keyframes fx-ai{50%{transform:scale(1.08);filter:hue-rotate(35deg)}}@keyframes fx-type{50%{width:20%;overflow:hidden;white-space:nowrap}}
+
+/* 27 height — ruler */
+.xp-height{background:#ffeaf5}.xp-ruler{width:80%;height:30px;border-top:4px solid #111;display:flex;justify-content:space-between;align-items:flex-start}.xp-ruler i{height:25px;border-left:3px solid #111}.xp-height-person{font-size:30px;line-height:1;animation:fx-height 1.3s infinite alternate}.xp-height strong{position:absolute;bottom:25px}
+@keyframes fx-height{to{transform:scaleY(1.12);transform-origin:bottom}}
+
+/* 28 pixel — tiny object gets huge */
+.xp-pixel{background:#fff}.xp-single-pixel{width:4px;height:4px;background:#ff3b30;box-shadow:0 0 0 1px #111;animation:fx-pixel 2s cubic-bezier(.2,.8,.2,1) infinite}.xp-pixel span{position:absolute;bottom:45px;font-size:10px;letter-spacing:.2em}.xp-pixel small{position:absolute;bottom:25px}
+@keyframes fx-pixel{0%,20%{transform:scale(1)}70%{transform:scale(55);box-shadow:0 0 30px #ff3b30}100%{transform:scale(1)}}
+
+/* 29 unlock — lock opens */
+.xp-unlock{background:#eafff0}.xp-lock{font-size:110px;animation:fx-unlock 1.2s infinite}.xp-unlock-line{font-family:monospace;letter-spacing:.2em;animation:fx-unlock-text 1.5s infinite}.xp-unlock small{position:absolute;bottom:22px}
+@keyframes fx-unlock{0%,30%{transform:rotate(0)}45%{transform:rotate(-15deg) translateY(-8px)}100%{transform:rotate(8deg)}}@keyframes fx-unlock-text{50%{opacity:.15;transform:translateX(15px)}}
+
+/* 30 secret — terminal typing */
+.xp-secret{background:#020202;color:#00ff66;font-family:monospace;text-align:left!important;padding:30px}.xp-secret-terminal{width:100%;line-height:2;animation:fx-terminal 2s steps(3) infinite}.xp-secret h3{align-self:end;justify-self:start;font-size:30px;animation:fx-secret 1s infinite}.xp-secret span{justify-self:start;font-size:9px;letter-spacing:.2em}
+@keyframes fx-terminal{50%{opacity:.35;transform:translateX(4px)}}@keyframes fx-secret{50%{text-shadow:4px 0 #ff004c,-4px 0 #00ffff}}
+
+/* 31 button — button physically escapes */
+.xp-button{background:#ffef00}.xp-button button{position:relative;z-index:2;width:230px;height:110px;margin:0!important;border:5px solid #111!important;background:#fff!important;color:#111!important;font-size:24px;font-weight:900;cursor:pointer;box-shadow:12px 12px 0 #111;animation:fx-button 2s infinite}.xp-button small{position:absolute;bottom:20px}
+@keyframes fx-button{0%,100%{transform:translate(0) rotate(-2deg)}25%{transform:translate(35px,-18px) rotate(5deg)}50%{transform:translate(-25px,18px) rotate(-6deg)}75%{transform:translate(20px,5px) rotate(3deg)}}
+
+/* 32 free nothing — box */
+.xp-free-nothing{background:#f7f7f7}.xp-empty-box{width:150px;height:120px;border:4px solid #111;animation:fx-box 1.5s infinite}.xp-empty-box::after{content:"";display:block;width:100%;border-top:4px solid #111;transform:rotate(45deg) translate(35px,35px)}.xp-free-nothing h3{position:absolute;bottom:38px}.xp-free-nothing small{position:absolute;bottom:20px}
+@keyframes fx-box{50%{transform:rotate(-3deg) translateY(-12px);box-shadow:12px 12px 0 #bbb}}
+
+/* 33 oxygen — bubbles */
+.xp-oxygen{background:#e7fbff}.xp-oxygen-bubble{width:115px;height:115px;border:3px solid #55c8e8;border-radius:50%;display:grid;place-items:center;font-size:40px;box-shadow:inset 15px -15px 25px rgba(85,200,232,.25);animation:fx-oxygen 2s infinite}.xp-oxygen-ripples{position:absolute;width:180px;height:180px;border:2px solid #55c8e8;border-radius:50%;animation:fx-ripple 1.7s infinite}.xp-oxygen strong{position:absolute;bottom:25px}
+@keyframes fx-oxygen{50%{transform:translateY(-20px) scale(1.05)}}@keyframes fx-ripple{from{transform:scale(.4);opacity:.8}to{transform:scale(1.5);opacity:0}}
+
+/* 34 busy — terminal */
+.xp-busy{background:#111;color:#ddd;font-family:monospace;text-align:left!important}.xp-busy-terminal{width:80%;padding:20px;border:1px solid #aaa}.xp-busy-terminal span{display:block;margin:8px 0;animation:fx-busy .8s infinite alternate}.xp-busy-terminal span:nth-child(2){animation-delay:.15s}.xp-busy-terminal span:nth-child(3){animation-delay:.3s}.xp-busy-terminal span:nth-child(4){animation-delay:.45s}.xp-busy strong{position:absolute;bottom:25px;right:25px}
+@keyframes fx-busy{to{transform:translateX(12px);opacity:.35}}
+
+/* 35 CEO — certificate stamp */
+.xp-ceo{background:#eee4cf}.xp-ceo-card{width:70%;padding:30px;border:4px solid #b08d57;background:#fff;text-align:left;transform:rotate(-2deg);animation:fx-ceo-card 2s infinite}.xp-ceo-card small,.xp-ceo-card span{display:block;font-size:9px;letter-spacing:.15em}.xp-ceo-card strong{font-size:28px;margin:15px 0}.xp-ceo-stamp{position:absolute;right:35px;bottom:35px;padding:18px;border:4px double #8c1f1f;color:#8c1f1f;font-weight:900;transform:rotate(-15deg);animation:fx-stamp-ceo 1s infinite alternate}
+@keyframes fx-ceo-card{50%{transform:rotate(2deg) translateY(-8px)}}@keyframes fx-stamp-ceo{to{transform:rotate(-9deg) scale(1.1)}}
+
+/* 36 weird trick — question hypnotizes */
+.xp-weird{background:#ffedf3}.xp-weird-circle{width:160px;height:160px;border:7px dotted #ff4f81;border-radius:50%;display:grid;place-items:center;font-size:80px;animation:fx-weird 2s linear infinite}.xp-weird-text{position:absolute;top:25px;font-weight:900;letter-spacing:.18em}.xp-weird small{position:absolute;bottom:20px}
+@keyframes fx-weird{to{transform:rotate(360deg) scale(1.08)}}
+
+/* 37 surprise — star explodes */
+.xp-surprise{background:#ffef00}.xp-surprise-star{font-size:150px;animation:fx-surprise 1.1s cubic-bezier(.16,1,.3,1) infinite}.xp-surprise h3{position:absolute;bottom:45px}.xp-surprise p{position:absolute;bottom:20px;font-size:9px}
+@keyframes fx-surprise{0%{transform:scale(0) rotate(-180deg)}45%{transform:scale(1.25) rotate(25deg)}100%{transform:scale(.9) rotate(-8deg)}}
+
+/* 38 insurance — shield */
+.xp-insurance{background:#e8f5ff}.xp-shield{font-size:125px;color:#3f9cff;filter:drop-shadow(0 10px 0 rgba(63,156,255,.2));animation:fx-shield 1.6s infinite}.xp-insurance strong{position:absolute;bottom:40px}.xp-insurance small{position:absolute;bottom:20px}
+@keyframes fx-shield{50%{transform:translateY(-12px) scale(1.08);filter:drop-shadow(0 0 25px #3f9cff)}}
+
+/* 39 guarantee — check stamp */
+.xp-guarantee{background:#f4fff5}.xp-check{width:130px;height:130px;border:6px solid #35b65b;border-radius:50%;display:grid;place-items:center;color:#35b65b;font-size:80px;animation:fx-check 1s infinite}.xp-guarantee h3{position:absolute;bottom:42px}.xp-guarantee small{position:absolute;bottom:20px}
+@keyframes fx-check{0%{transform:scale(.7) rotate(-30deg)}60%{transform:scale(1.15) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+
+/* 40 rectangle — rotates in 3D */
+.xp-rectangle{background:#ffe8df}.xp-rectangle-object{width:210px;height:120px;background:#ff5a36;border:5px solid #111;box-shadow:15px 15px 0 #111;animation:fx-rectangle 2.2s infinite}.xp-rectangle strong{position:absolute;bottom:35px}.xp-rectangle small{position:absolute;bottom:18px}
+@keyframes fx-rectangle{0%,100%{transform:rotate(-5deg) perspective(500px) rotateY(-10deg)}50%{transform:rotate(5deg) perspective(500px) rotateY(18deg) translateY(-15px)}}
+
+/* 41 browser — eats ad */
+.xp-browser{background:#eaffd8}.xp-browser-mouth{font-size:100px;animation:fx-mouth 1.3s infinite}.xp-browser-food{position:absolute;font-weight:900;font-size:25px;animation:fx-feed 1.3s infinite}.xp-browser strong{position:absolute;bottom:38px;font-size:30px}.xp-browser small{position:absolute;bottom:20px}
+@keyframes fx-mouth{50%{transform:scaleY(.55)}}@keyframes fx-feed{0%{transform:translateY(-100px);opacity:0}45%{opacity:1}70%,100%{transform:translateY(20px) scale(.3);opacity:0}}
+
+/* 42 reality — grid breaks */
+.xp-reality{background:#161018;color:#ff58d2}.xp-reality-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:1px;opacity:.4}.xp-reality-grid span{border:1px solid #ff58d2;animation:fx-grid 1.2s infinite alternate}.xp-reality-grid span:nth-child(2){animation-delay:.2s}.xp-reality-grid span:nth-child(3){animation-delay:.4s}.xp-reality-grid span:nth-child(4){animation-delay:.6s}.xp-reality h3,.xp-reality small{position:relative;z-index:2}.xp-reality small{margin-top:10px}
+@keyframes fx-grid{to{transform:translate(15px,-10px) rotate(4deg);opacity:.1}}
+
+/* 43 tabs — cards multiply */
+.xp-tabs{background:#e7f0ff}.xp-tab-stack{width:70%;height:180px;position:relative}.xp-tab-stack span{position:absolute;left:calc(var(--i,0) * 20px);top:calc(var(--i,0) * 12px);padding:14px 22px;border:2px solid #111;background:#fff;animation:fx-tab 1.5s infinite alternate}.xp-tab-stack span:nth-child(1){--i:0}.xp-tab-stack span:nth-child(2){--i:1;animation-delay:.1s}.xp-tab-stack span:nth-child(3){--i:2;animation-delay:.2s}.xp-tab-stack span:nth-child(4){--i:3;animation-delay:.3s}.xp-tab-stack span:nth-child(5){--i:4;animation-delay:.4s}.xp-tabs strong{position:absolute;bottom:25px}
+@keyframes fx-tab{to{transform:translate(45px,-12px) rotate(4deg)}}
+
+/* 44 money generator — useless wheel */
+.xp-money-generator{background:#e4ffe9}.xp-money-counter{font-family:monospace;font-size:75px;font-weight:900;animation:fx-money 1.8s infinite}.xp-money-wheel{position:absolute;right:40px;top:35px;font-size:75px;animation:fx-money-wheel 1s linear infinite}.xp-money-generator small{position:absolute;bottom:25px}
+@keyframes fx-money{50%{transform:scale(1.1);color:#20a34a}}@keyframes fx-money-wheel{to{transform:rotate(360deg)}}
+
+/* 45 premium plus — expanding luxury */
+.xp-premium-plus{background:radial-gradient(circle,#fff,#ead8a2);color:#5a4310}.xp-plus-stars{font-size:35px;letter-spacing:.3em;animation:fx-plus-stars 1.2s infinite}.xp-premium-plus span{font-size:9px;letter-spacing:.3em}.xp-premium-plus h3{margin:10px 0}.xp-premium-plus small{font-size:9px}
+@keyframes fx-plus-stars{50%{letter-spacing:.7em;transform:scale(1.1)}}
+
+/* 46 stop ads — fake shutdown */
+.xp-stop-ads{background:#160707;color:#ff5a5a;font-family:monospace}.xp-stop-ads-message{font-size:clamp(40px,9vw,80px);font-weight:900;animation:fx-stop-ads .7s infinite}.xp-stop-ads-timer{font-size:45px;animation:fx-timer .25s infinite alternate}.xp-stop-ads small{position:absolute;bottom:22px}
+@keyframes fx-stop-ads{0%,100%{opacity:1}50%{opacity:.15;transform:scale(1.05)}}@keyframes fx-timer{to{transform:translateX(8px)}}
+
+/* 47 millionth — winner lights */
+.xp-millionth{background:#fff1b8}.xp-millionth-number{font-size:clamp(45px,10vw,95px);font-weight:900;animation:fx-millionth 1.2s infinite}.xp-millionth-lights{position:absolute;top:25px;letter-spacing:1em;animation:fx-lights .35s infinite}.xp-millionth h3{position:absolute;bottom:25px;font-size:22px}
+@keyframes fx-millionth{50%{transform:scale(1.12) rotate(-2deg);color:#a06a00}}@keyframes fx-lights{0%,100%{opacity:.15}50%{opacity:1;text-shadow:0 0 25px #ffb300}}
+
+/* 48 download internet — progress globe */
+.xp-download-internet{background:#e8e5ff}.xp-internet-download{font-family:monospace;font-size:75px;font-weight:900}.xp-download-world{font-size:120px;position:absolute;color:#8c7cff;animation:fx-download-world 2.5s linear infinite}.xp-download-internet small{position:absolute;bottom:22px}
+@keyframes fx-download-world{to{transform:rotate(360deg)}}
+
+/* 49 absolute nothing — pulse disappears */
+.xp-absolute-nothing{background:#fafafa}.xp-nothing-pulse{width:90px;height:90px;border:3px solid #111;border-radius:50%;animation:fx-nothing 1.8s infinite}.xp-absolute-nothing span{position:absolute;font-size:12px;font-weight:900;letter-spacing:.3em}.xp-absolute-nothing small{position:absolute;bottom:22px}
+@keyframes fx-nothing{0%{transform:scale(.2);opacity:0}25%{opacity:1}100%{transform:scale(3);opacity:0}}
+
+/* 50 final — curtain closes */
+.xp-final{background:#111;color:#fff}.xp-final-curtain{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#a00 0 35px,#700 35px 70px);display:grid;place-items:center;animation:fx-curtain 2.2s cubic-bezier(.7,0,.3,1) infinite alternate;z-index:2}.xp-final-curtain span{font-size:50px;font-weight:900}.xp-final h3,.xp-final small{position:relative;z-index:1}.xp-final h3{font-size:45px}.xp-final small{position:absolute;bottom:20px}
+@keyframes fx-curtain{0%{transform:translateY(0)}55%,100%{transform:translateY(-82%)}}
+
+@media (max-width: 600px) {
+  .fake-ad-experience { padding: 10px; }
+  .fake-ad-experience-inner { min-height: 430px; padding: 22px; box-shadow: 8px 8px 0 #000; }
+  .fake-ad-experience-inner section { min-height: 285px; }
+  .xp-productivity { grid-template-columns: 1fr; gap: 12px; }
+  .xp-productivity-ring { width: 115px; }
+  .xp-productivity-ring::after { width: 82px; }
+  .xp-ai { grid-template-columns: 1fr; }
+  .xp-ai-brain { width: 80px; height: 80px; }
+  .xp-tab-stack { width: 90%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fake-ad-experience *, .fake-ad-experience *::before, .fake-ad-experience *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
