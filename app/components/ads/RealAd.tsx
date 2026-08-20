@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
 
 type RealAdSize = "320x50" | "468x60" | "728x90" | "300x250";
 
@@ -63,6 +63,7 @@ var atOptions={
 
 export default function RealAd({ size }: RealAdProps) {
   const config = AD_CONFIG[size];
+  const countedRef = useRef(false);
 
   const srcDoc = useMemo(
     () =>
@@ -73,6 +74,13 @@ export default function RealAd({ size }: RealAdProps) {
       ),
     [config.key, config.width, config.height],
   );
+
+  const handleLoad = () => {
+    if (countedRef.current) return;
+
+    countedRef.current = true;
+    window.dispatchEvent(new Event("ad-seen"));
+  };
 
   return (
     <section
@@ -93,6 +101,7 @@ export default function RealAd({ size }: RealAdProps) {
           loading="lazy"
           scrolling="no"
           frameBorder="0"
+          onLoad={handleLoad}
           sandbox="allow-scripts allow-popups allow-popups-to-escape-sandbox allow-forms allow-same-origin"
         />
       </div>
