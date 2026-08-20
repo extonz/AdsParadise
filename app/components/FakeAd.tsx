@@ -186,8 +186,7 @@ export default function FakeAd({ ad }: FakeAdProps) {
 
     if (
       ad.effect === "download-internet" ||
-      ad.effect === "ram" ||
-      ad.effect === "download-internet"
+      ad.effect === "ram"
     ) {
       runProgress(2600);
       return;
@@ -213,13 +212,6 @@ export default function FakeAd({ ad }: FakeAdProps) {
         ) + 1000,
       }));
       return;
-    }
-
-    if (ad.effect === "counter") {
-      setExperience((current) => ({
-        ...current,
-        value: current.value + 1,
-      }));
     }
   };
 

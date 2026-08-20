@@ -1,11 +1,32 @@
+"use client";
+
+import { useState } from "react";
+
 import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
 import FakeAd from "./components/FakeAd";
 import AdCounter from "./components/AdCounter";
 import NativeAd from "./components/ads/NativeAd";
+import RealAd from "./components/ads/RealAd";
 import { fakeAds } from "./data/ads";
 
 export default function Home() {
+  const [currentAd, setCurrentAd] = useState(0);
+
+  const nextFakeAd = () => {
+    setCurrentAd(
+      (current) =>
+        (current + 1) % fakeAds.length
+    );
+  };
+
+  const getAd = (offset: number) => {
+    return fakeAds[
+      (currentAd + offset) %
+        fakeAds.length
+    ];
+  };
+
   return (
     <main>
       <AdCounter />
@@ -33,31 +54,53 @@ export default function Home() {
 
         <NativeAd />
 
-        {fakeAds.map((ad, index) => (
-          <div key={ad.id}>
-            <FakeAd ad={ad} />
+        <FakeAd ad={getAd(0)} />
 
-            {(index + 1) % 5 === 0 &&
-              index !== fakeAds.length - 1 && (
-                <AdCard />
-              )}
-          </div>
-        ))}
+        <RealAd size="728x90" />
+
+        <FakeAd ad={getAd(1)} />
+
+        <RealAd size="300x250" />
+
+        <FakeAd ad={getAd(2)} />
+
+        <RealAd size="468x60" />
+
+        <FakeAd ad={getAd(3)} />
+
+        <RealAd size="320x50" />
+
+        <FakeAd ad={getAd(4)} />
+
+        <AdCard />
+
+        <FakeAd ad={getAd(5)} />
 
         <section className="stats">
           <div>
-            <strong>{fakeAds.length}</strong>
-            <span>FAKE ADS</span>
+            <strong>
+              {fakeAds.length}
+            </strong>
+
+            <span>
+              FAKE ADS AVAILABLE
+            </span>
           </div>
 
           <div>
-            <strong>∞</strong>
-            <span>BAD DECISIONS</span>
+            <strong>0</strong>
+
+            <span>
+              REASONS TO BE HERE
+            </span>
           </div>
 
           <div>
             <strong>100%</strong>
-            <span>ADVERTISEMENT</span>
+
+            <span>
+              ADVERTISEMENT
+            </span>
           </div>
         </section>
 
