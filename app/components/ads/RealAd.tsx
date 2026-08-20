@@ -31,9 +31,63 @@ const AD_CONFIG = {
   },
 } as const;
 
+let adsterraQueue: Promise<void> = Promise.resolve();
+
+function loadAdsterra(
+  container: HTMLDivElement,
+  key: string,
+  width: number,
+  height: number,
+) {
+  adsterraQueue = adsterraQueue.then(
+    () =>
+      new Promise<void>((resolve) => {
+        if (!container.isConnected) {
+          resolve();
+          return;
+        }
+
+        container.replaceChildren();
+
+        const optionsScript = document.createElement("script");
+        optionsScript.type = "text/javascript";
+        optionsScript.text = `window.atOptions = {
+  key: '${key}',
+  format: 'iframe',
+  height: ${height},
+  width: ${width},
+  params: {}
+};`;
+
+        const invokeScript = document.createElement("script");
+        invokeScript.type = "text/javascript";
+        invokeScript.async = false;
+        invokeScript.src =
+          `https://www.highperformanceformat.com/${key}/invoke.js`;
+
+        const finish = () => {
+          window.clearTimeout(timeout);
+          invokeScript.removeEventListener("load", finish);
+          invokeScript.removeEventListener("error", finish);
+          resolve();
+        };
+
+        const timeout = window.setTimeout(finish, 9000);
+
+        invokeScript.addEventListener("load", finish, { once: true });
+        invokeScript.addEventListener("error", finish, { once: true });
+
+        container.append(optionsScript, invokeScript);
+      }),
+  );
+
+  return adsterraQueue;
+}
+
 export default function RealAd({ size }: RealAdProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const countedRef = useRef(false);
+  const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
   const config = AD_CONFIG[size];
 
@@ -41,45 +95,31 @@ export default function RealAd({ size }: RealAdProps) {
     const container = containerRef.current;
     if (!container) return;
 
+    let cancelled = false;
+    setLoaded(false);
     setFailed(false);
-    container.replaceChildren();
+    countedRef.current = false;
 
-    const optionsScript = document.createElement("script");
-    optionsScript.type = "text/javascript";
-    optionsScript.text = `window.atOptions = {
-      key: '${config.key}',
-      format: 'iframe',
-      height: ${config.height},
-      width: ${config.width},
-      params: {}
-    };`;
+    loadAdsterra(
+      container,
+      config.key,
+      config.width,
+      config.height,
+    ).then(() => {
+      if (cancelled) return;
 
-    const invokeScript = document.createElement("script");
-    invokeScript.type = "text/javascript";
-    invokeScript.async = true;
-    invokeScript.src = `https://www.highperformanceformat.com/${config.key}/invoke.js`;
+      const hasIframe = Boolean(
+        container.querySelector("iframe"),
+      );
 
-    let timeout = window.setTimeout(() => {
-      if (!container.querySelector("iframe")) {
-        setFailed(true);
-      }
-    }, 9000);
-
-    const observer = new MutationObserver(() => {
-      if (container.querySelector("iframe")) {
-        window.clearTimeout(timeout);
-        setFailed(false);
-      }
+      setLoaded(hasIframe);
+      setFailed(!hasIframe);
     });
 
-    observer.observe(container, { childList: true, subtree: true });
-    container.append(optionsScript, invokeScript);
-
     return () => {
-      window.clearTimeout(timeout);
-      observer.disconnect();
+      cancelled = true;
     };
-  }, [config]);
+  }, [config.height, config.key, config.width]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -87,7 +127,15 @@ export default function RealAd({ size }: RealAdProps) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !countedRef.current) {
+        const hasRealAd = Boolean(
+          container.querySelector("iframe"),
+        );
+
+        if (
+          entry.isIntersecting &&
+          hasRealAd &&
+          !countedRef.current
+        ) {
           countedRef.current = true;
           window.dispatchEvent(new Event("ad-seen"));
         }
@@ -100,17 +148,33 @@ export default function RealAd({ size }: RealAdProps) {
   }, []);
 
   return (
-    <section className={`real-ad real-ad-${size}`} aria-label="Advertisement">
+    <section
+      className={`real-ad real-ad-${size}${
+        loaded ? " is-loaded" : ""
+      }${failed ? " is-failed" : ""}`}
+      aria-label="Advertisement"
+    >
       <div className="real-ad-label">
         <span>ADVERTISEMENT</span>
         <span>{size}</span>
       </div>
 
-      <div ref={containerRef} className="real-ad-content">
+      <div
+        ref={containerRef}
+        className="real-ad-content"
+      >
+        {!loaded && !failed && (
+          <div className="real-ad-loading" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+        )}
+
         {failed && (
           <div className="real-ad-fallback" role="status">
             <span>ADVERTISEMENT UNAVAILABLE</span>
-            <small>Nothing to see here. Moving on.</small>
+            <small>Moving on.</small>
           </div>
         )}
       </div>
