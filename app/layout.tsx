@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-// @ts-expect-error Next.js handles this global CSS import at build time.
+// @ts-expect-error Next.js handles these global CSS imports at build time.
 import "./globals.css";
+import "./fake-ad-effects.css";
 
 export const metadata: Metadata = {
   title: "Ads Paradise™ — You came for the internet. We gave you ads.",
