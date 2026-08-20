@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./paradise-redesign.css";
 import "./fake-ad-effects.css";
+import "./fake-ad-runtime.css";
 
 export const metadata: Metadata = {
   title: "Ads Paradise — The Internet, But Mostly Ads",
