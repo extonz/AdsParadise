@@ -35,20 +35,16 @@ export async function loadAds(): Promise<LoadedAds> {
   }
 
   try {
-    const endpoint = new URL(
-      "/rest/v1/fake_ads",
-      SUPABASE_URL,
-    );
-
+    const endpoint = new URL("/rest/v1/fake_ads", SUPABASE_URL);
     endpoint.searchParams.set(
       "select",
       "id,title,description,button,category,size,effect",
     );
-    endpoint.searchParams.set("is_active", "eq.true");
+    endpoint.searchParams.set("active", "eq.true");
     endpoint.searchParams.set("order", "id.asc");
     endpoint.searchParams.set("limit", "1000");
 
-    const response = await fetch(endpoint.toString(), {
+    const response = await fetch(endpoint, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
@@ -57,15 +53,11 @@ export async function loadAds(): Promise<LoadedAds> {
     });
 
     if (!response.ok) {
-      throw new Error(
-        `Supabase returned ${response.status}`,
-      );
+      throw new Error(`Supabase returned ${response.status}`);
     }
 
-    const payload = await response.json();
-    const ads = Array.isArray(payload)
-      ? payload.filter(isValidAd)
-      : [];
+    const payload: unknown = await response.json();
+    const ads = Array.isArray(payload) ? payload.filter(isValidAd) : [];
 
     if (ads.length === 0) {
       throw new Error("Supabase returned no valid ads");
