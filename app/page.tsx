@@ -6,6 +6,7 @@ import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
 import FakeAd from "./components/FakeAd";
 import AdCounter from "./components/AdCounter";
+import PopupPolish from "./components/PopupPolish";
 import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
 import { fakeAds as fallbackAds, type FakeAd as FakeAdData } from "./data/ads";
@@ -68,6 +69,7 @@ export default function Home() {
 
   return (
     <main>
+      <PopupPolish />
       <AdCounter />
       <ParadiseHeader />
 
