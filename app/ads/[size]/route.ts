@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 
 const CONFIG = {
-  "320x50": { width: 320, height: 50 },
-  "468x60": { width: 468, height: 60 },
-  "728x90": { width: 728, height: 90 },
-  "300x250": { width: 300, height: 250 },
+  "320x50": { key: "628f0c75cee1613f48c609fa5e5f2ed8", width: 320, height: 50 },
+  "468x60": { key: "6afa17e3d471b1a172de2db008075829", width: 468, height: 60 },
+  "728x90": { key: "d3d71735886c02030a69a8ea52632b4b", width: 728, height: 90 },
+  "300x250": { key: "458a1f1c02613ad23c09ecf29b443cc8", width: 300, height: 250 },
 } as const;
 
 type AdSize = keyof typeof CONFIG;
@@ -21,24 +21,28 @@ export async function GET(
 
   const config = CONFIG[size as AdSize];
 
-  // Third-party ad scripts are intentionally disabled until the provider/domain
-  // can be independently verified. Keep the local ad endpoint alive so the
-  // frontend does not break while a safer provider is selected.
   const html = `<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=${config.width}, initial-scale=1">
-<meta name="referrer" content="no-referrer">
+<meta name="referrer" content="no-referrer-when-downgrade">
 <style>
 html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;background:transparent}
-body{display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif}
-.ad-placeholder{box-sizing:border-box;width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid rgba(0,0,0,.08);background:#f7f7f5;color:#777;font-size:11px;letter-spacing:.08em;text-transform:uppercase}
-.dot{width:6px;height:6px;border-radius:50%;background:#f5c400}
+body{display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
-<div class="ad-placeholder"><span class="dot"></span><span>Advertisement temporarily paused</span></div>
+<script>
+var atOptions={
+  key:'${config.key}',
+  format:'iframe',
+  height:${config.height},
+  width:${config.width},
+  params:{}
+};
+</script>
+<script async="async" data-cfasync="false" src="https://servicessitclaims.com/${config.key}/invoke.js"></script>
 </body>
 </html>`;
 
@@ -47,7 +51,6 @@ body{display:flex;align-items:center;justify-content:center;font-family:Arial,sa
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "public, s-maxage=300, stale-while-revalidate=600",
       "X-Content-Type-Options": "nosniff",
-      "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline';",
     },
   });
 }
