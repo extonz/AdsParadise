@@ -6,6 +6,7 @@ import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
 import FakeAd from "./components/FakeAd";
 import AdCounter from "./components/AdCounter";
+import GlobalAdCounter from "./components/GlobalAdCounter";
 import Achievements from "./components/Achievements";
 import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
@@ -60,6 +61,7 @@ export default function Home() {
   return (
     <main>
       <Achievements />
+      <GlobalAdCounter />
       <AdCounter />
       <ParadiseHeader />
 
