@@ -6,6 +6,7 @@ import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
 import FakeAd from "./components/FakeAd";
 import AdCounter from "./components/AdCounter";
+import Achievements from "./components/Achievements";
 import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
 import { fakeAds as fallbackAds, type FakeAd as FakeAdData } from "./data/ads";
@@ -17,12 +18,10 @@ const LOAD_MORE = 12;
 
 function shuffle<T>(items: T[]): T[] {
   const result = [...items];
-
   for (let i = result.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
     [result[i], result[j]] = [result[j], result[i]];
   }
-
   return result;
 }
 
@@ -34,57 +33,47 @@ export default function Home() {
 
   useEffect(() => {
     let cancelled = false;
-
     loadAds().then((result) => {
       if (cancelled) return;
-
       setAds(shuffle(result.ads));
       setSource(result.source);
       setVisibleCount(INITIAL_VISIBLE);
       setLoading(false);
     });
-
-    return () => {
-      cancelled = true;
-    };
+    return () => { cancelled = true; };
   }, []);
 
-  const visibleAds = useMemo(
-    () => ads.slice(0, visibleCount),
-    [ads, visibleCount],
-  );
+  const visibleAds = useMemo(() => ads.slice(0, visibleCount), [ads, visibleCount]);
 
   const shuffleFeed = () => {
     setAds((current) => shuffle(current));
     setVisibleCount(INITIAL_VISIBLE);
+    window.dispatchEvent(new CustomEvent("achievement-action", { detail: "shuffle" }));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const loadMore = () => {
-    setVisibleCount((current) =>
-      Math.min(current + LOAD_MORE, ads.length),
-    );
+    setVisibleCount((current) => Math.min(current + LOAD_MORE, ads.length));
+    window.dispatchEvent(new CustomEvent("achievement-action", { detail: "load-more" }));
   };
 
   return (
     <main>
+      <Achievements />
       <AdCounter />
       <ParadiseHeader />
 
       <div className="container">
         <section className="hero">
           <p className="eyebrow">WELCOME TO THE PARADISE</p>
-
           <h1>
             You came for the internet.
             <br />
             We gave you ads.
           </h1>
-
           <p className="hero-description">
             Ads Paradise is a completely unnecessary website dedicated to the beautiful art of advertising.
           </p>
-
           <div className="hero-meta">
             <span>{ads.length.toLocaleString()} FAKE ADS</span>
             <span>{source === "supabase" ? "LIVE DATABASE" : "LOCAL FALLBACK"}</span>
@@ -98,15 +87,8 @@ export default function Home() {
           {visibleAds.map((ad, index) => (
             <div className="ad-feed-item" key={`${ad.id}-${index}`}>
               <FakeAd ad={ad} />
-
               {index % 4 === 3 && (
-                <RealAd
-                  size={
-                    realAdSizes[
-                      Math.floor(index / 4) % realAdSizes.length
-                    ]
-                  }
-                />
+                <RealAd size={realAdSizes[Math.floor(index / 4) % realAdSizes.length]} />
               )}
             </div>
           ))}
@@ -115,20 +97,12 @@ export default function Home() {
         <section className="paradise-break" aria-label="Advertisement feed controls">
           <div>
             <span>THE FEED</span>
-            <strong>
-              {loading ? "LOADING..." : "NEVER ENDS."}
-            </strong>
+            <strong>{loading ? "LOADING..." : "NEVER ENDS."}</strong>
           </div>
-
           <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button type="button" onClick={shuffleFeed}>
-              SHUFFLE ADS
-            </button>
-
+            <button type="button" onClick={shuffleFeed}>SHUFFLE ADS</button>
             {visibleCount < ads.length && (
-              <button type="button" onClick={loadMore}>
-                LOAD MORE
-              </button>
+              <button type="button" onClick={loadMore}>LOAD MORE</button>
             )}
           </div>
         </section>
@@ -136,20 +110,9 @@ export default function Home() {
         <AdCard />
 
         <section className="stats">
-          <div>
-            <strong>{ads.length.toLocaleString()}</strong>
-            <span>FAKE ADS AVAILABLE</span>
-          </div>
-
-          <div>
-            <strong>∞</strong>
-            <span>SCROLLING REQUIRED</span>
-          </div>
-
-          <div>
-            <strong>100%</strong>
-            <span>ADVERTISEMENT</span>
-          </div>
+          <div><strong>{ads.length.toLocaleString()}</strong><span>FAKE ADS AVAILABLE</span></div>
+          <div><strong>∞</strong><span>SCROLLING REQUIRED</span></div>
+          <div><strong>100%</strong><span>ADVERTISEMENT</span></div>
         </section>
 
         <footer>
