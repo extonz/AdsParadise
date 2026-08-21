@@ -46,8 +46,20 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    // One global counter increment per page visit, not once per rendered ad.
-    fetch("/api/global-ads", { method: "POST", keepalive: true }).catch(() => {});
+    // FakeAd fires this event once when at least 50% of an ad enters the viewport.
+    // Each event is one genuine fake-ad impression; the component itself guards
+    // against duplicate renders/re-observations of the same ad.
+    const handleAdSeen = () => {
+      fetch("/api/global-ads", {
+        method: "POST",
+        keepalive: true,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type: "fake-ad-impression" }),
+      }).catch(() => {});
+    };
+
+    window.addEventListener("ad-seen", handleAdSeen);
+    return () => window.removeEventListener("ad-seen", handleAdSeen);
   }, []);
 
   const visibleAds = useMemo(() => ads.slice(0, visibleCount), [ads, visibleCount]);
