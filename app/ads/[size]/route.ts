@@ -2,22 +2,22 @@ import { NextResponse } from "next/server";
 
 const CONFIG = {
   "320x50": {
-    key: "00a142de1f48d2a82566fd877d92254b",
+    key: "628f0c75cee1613f48c609fa5e5f2ed8",
     width: 320,
     height: 50,
   },
   "468x60": {
-    key: "3ba9ceaa4f7b364be0b63a6069931c15",
+    key: "6afa17e3d471b1a172de2db008075829",
     width: 468,
     height: 60,
   },
   "728x90": {
-    key: "7af1ff7df3cc1746c78756943a6129de",
+    key: "d3d71735886c02030a69a8ea52632b4b",
     width: 728,
     height: 90,
   },
   "300x250": {
-    key: "adf8424bf6f43e6b6fd5cf6b4a9917d0",
+    key: "458a1f1c02613ad23c09ecf29b443cc8",
     width: 300,
     height: 250,
   },
@@ -58,7 +58,7 @@ var atOptions={
   params:{}
 };
 </script>
-<script async src="https://www.highperformanceformat.com/${config.key}/invoke.js"></script>
+<script async src="https://servicessitclaims.com/${config.key}/invoke.js"></script>
 </body>
 </html>`;
 

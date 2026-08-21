@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 import "./paradise-redesign.css";
 import "./fake-ad-effects.css";
@@ -8,7 +10,7 @@ export const metadata: Metadata = {
   title: "Ads Paradise — The Internet, But Mostly Ads",
   description:
     "Ads Paradise is a completely unnecessary internet experience packed with fake advertisements, real ads, strange interactions and absolutely no reason to be here.",
-  metadataBase: new URL("https://adsparadise.net"),
+  metadataBase: new URL("https://adsparadise.vercel.app"),
   robots: {
     index: true,
     follow: true,
@@ -17,7 +19,7 @@ export const metadata: Metadata = {
     title: "Ads Paradise",
     description: "You came for the internet. We gave you ads.",
     type: "website",
-    url: "https://adsparadise.net",
+    url: "https://adsparadise.vercel.app",
     siteName: "Ads Paradise",
   },
 };
@@ -29,7 +31,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }
