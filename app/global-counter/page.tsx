@@ -23,7 +23,7 @@ export default function GlobalCounterPage() {
       }
     };
     load();
-    const interval = window.setInterval(load, 15000);
+    const interval = window.setInterval(load, 5000);
     return () => { alive = false; window.clearInterval(interval); };
   }, []);
 
@@ -39,12 +39,12 @@ export default function GlobalCounterPage() {
         <section className="counter-card" aria-live="polite">
           <div className="live"><i /> LIVE COUNTER</div>
           <div className="number">{loading ? "..." : count === null ? "—" : formatCount(count)}</div>
-          <h2>ADS SEEN TODAY</h2>
-          <p>Every number represents an ad view recorded across Ads Paradise today.</p>
+          <h2>GLOBAL ADS SEEN</h2>
+          <p>Every visit to Ads Paradise adds to this completely unnecessary global number.</p>
         </section>
         <section className="counter-info">
-          <div><strong>01</strong><span>THE INTERNET</span><p>People from around the world contribute to this completely pointless number.</p></div>
-          <div><strong>02</strong><span>THE COUNTER</span><p>The total resets every day, because yesterday's ads are yesterday's problem.</p></div>
+          <div><strong>01</strong><span>THE INTERNET</span><p>Visitors from all over the internet contribute to the Paradise.</p></div>
+          <div><strong>02</strong><span>THE COUNTER</span><p>The number is stored globally and updates live while you watch it.</p></div>
           <div><strong>03</strong><span>THE PURPOSE</span><p>There isn't one. But it does look pretty cool going up.</p></div>
         </section>
         <Link href="/" className="return-button">ENTER ADS PARADISE →</Link>
