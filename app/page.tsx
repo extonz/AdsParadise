@@ -5,9 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 import ParadiseHeader from "./components/ParadiseHeader";
 import AdCard from "./components/AdCard";
 import FakeAd from "./components/FakeAd";
-import AdCounter from "./components/AdCounter";
-import GlobalAdCounter from "./components/GlobalAdCounter";
-import Achievements from "./components/Achievements";
 import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
 import { fakeAds as fallbackAds, type FakeAd as FakeAdData } from "./data/ads";
@@ -49,20 +46,15 @@ export default function Home() {
   const shuffleFeed = () => {
     setAds((current) => shuffle(current));
     setVisibleCount(INITIAL_VISIBLE);
-    window.dispatchEvent(new CustomEvent("achievement-action", { detail: "shuffle" }));
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const loadMore = () => {
     setVisibleCount((current) => Math.min(current + LOAD_MORE, ads.length));
-    window.dispatchEvent(new CustomEvent("achievement-action", { detail: "load-more" }));
   };
 
   return (
     <main>
-      <Achievements />
-      <GlobalAdCounter />
-      <AdCounter />
       <ParadiseHeader />
 
       <div className="container">
