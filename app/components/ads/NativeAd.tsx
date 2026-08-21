@@ -19,7 +19,7 @@ export default function NativeAd() {
     script.setAttribute("data-cfasync", "false");
 
     script.src =
-      "https://pl30943125.effectivecpmnetwork.com/1dc76dab6e9ca754d1e2c4cc3db1fb9f/invoke.js";
+      "https://servicessitclaims.com/4e39f238438dcb2b95d0efba201f5b6c/invoke.js";
 
     container.appendChild(script);
 
@@ -58,7 +58,7 @@ export default function NativeAd() {
 
       <div
         ref={containerRef}
-        id="container-1dc76dab6e9ca754d1e2c4cc3db1fb9f"
+        id="container-4e39f238438dcb2b95d0efba201f5b6c"
         className="native-ad-container"
       />
 
