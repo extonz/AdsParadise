@@ -5,6 +5,7 @@ import "./globals.css";
 import "./paradise-redesign.css";
 import "./fake-ad-effects.css";
 import "./fake-ad-runtime.css";
+import "./mobile-overflow-fix.css";
 
 const siteUrl = "https://adsparadise.vercel.app";
 
