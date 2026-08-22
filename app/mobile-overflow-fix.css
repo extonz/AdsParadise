@@ -1,0 +1,12 @@
+/* Prevent decorative animations and shadows from creating horizontal page overflow on mobile. */
+html,
+body {
+  overflow-x: clip;
+}
+
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+}
