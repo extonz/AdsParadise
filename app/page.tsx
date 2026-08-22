@@ -8,7 +8,6 @@ import FakeAd from "./components/FakeAd";
 import AdCounter from "./components/AdCounter";
 import AdGlobalTracker from "./components/AdGlobalTracker";
 import PopupPolish from "./components/PopupPolish";
-import NativeAd from "./components/ads/NativeAd";
 import RealAd from "./components/ads/RealAd";
 import { fakeAds as fallbackAds, type FakeAd as FakeAdData } from "./data/ads";
 import { loadAds } from "./lib/ads";
@@ -90,8 +89,6 @@ export default function Home() {
             <span>ZERO PURPOSE</span>
           </div>
         </section>
-
-        <NativeAd />
 
         <section className="ad-feed" aria-label="Advertisement gallery">
           {visibleAds.map((ad, index) => (
